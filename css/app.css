@@ -26,6 +26,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 }
 
 h1 {
@@ -64,7 +65,6 @@ h1 {
     align-items: center;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     transition: all 0.5s ease-in-out;
-   /* backface-visibility: hidden;*/
 }
 
 
@@ -112,17 +112,80 @@ h1 {
     cursor: pointer;
 }
 
-.green{
+.green {
     color: #98e653;
     font-size: 1.2em;
 }
 
-
-
-.tail{
- 
-
+.circle {
+    border: 1px solid #cac8c8;
+    border-radius: 50%;
+    padding: 9px;
+    color: #06d216;
+    font-size: 2em;
 }
-.head {
 
+.win {
+    padding: 10% 0;
+}
+
+.win h1 {
+    color: #e44;
+}
+
+.win p {
+    font-size: 1.2em;
+    color: #6b6969;
+    text-align: center;
+}
+
+.win  button {
+    background: #02ccba;
+    border: 1px solid #188e83;
+    border-radius: 2px;
+    padding: 4px 18px;
+    color: #fff;
+    font-weight: bold;
+    transition: all 0.4s ease;
+}
+
+.win  button:hover {
+    background: #188e83;
+    border: 1px solid #02ccba;
+    border-radius: 2px;
+    padding: 6px 20px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+
+  
+
+
+
+.shake {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+ }
+  
+@keyframes shake {
+10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+}
+
+20%, 80% {
+    transform: translate3d(2px, 0, 0);
+}
+
+30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+}
+
+40%, 60% {
+    transform: translate3d(4px, 0, 0);
+}
 }

@@ -12,6 +12,10 @@ var starsNumber=stars.length;
 var downRate=30000;  // 30 secound
 //number of matched images , end game when reach 8
 var matched=0;
+var winDiv = document.querySelector("#win");
+var notWinDiv = document.querySelector("#notWin");
+var replay =document.querySelector("#replay");
+
 var counter=0;
 var movesCounter= document.querySelector("span.moves");
 var restartBitton=document.querySelector(".restart");
@@ -40,6 +44,8 @@ for(let card of cards){
     card.addEventListener("click",cardClicked);
 }
 
+//replay button listener
+replay.addEventListener("click",restart);
 //restart game
 restartBitton.addEventListener('click',restart);
 
@@ -92,11 +98,14 @@ function init(){
     let images=[...arr,...arr];
     images=shuffle(images);
     for(let i=0 ; i<images.length ; i++){
-        cards[i].children[0].classList.add(images[i]);
+        cards[i].children[0].className =`fa ${images[i]}`;
+
     }
 
     first=null;
     secound=null;
+    winDiv.style.display="none"
+    notWinDiv.style.display="flex"
   
 }
 
@@ -150,15 +159,18 @@ function compare (){
     }
     else{
         wait=true;
+        first.classList.add("shake");
+        secound.classList.add("shake");
         setTimeout( function(){
-            if(first){
+           
                 first.classList.remove("open");
+                first.classList.remove("shake");
                 first = null;
-            }
-            if(secound){
+            
                 secound.classList.remove("open");
+                secound.classList.remove("shake");
                 secound = null
-            }
+            
             wait=false;
         }
         ,500);
@@ -183,8 +195,12 @@ function isPassed(){
   if(matched==8){
       let currentStar=starsNumber;
       let currentMoves=counter;
-      console.log(currentMoves+"success"+currentStar)
+      let winMessage=` with ${currentMoves} moves <br> and ${currentStar} star <br> woooooooooo! <br>`;
 
+      document.querySelector("#message").innerHTML=winMessage;
+
+      winDiv.style.display="flex";
+      notWinDiv.style.display="none";
       
   }
 }
