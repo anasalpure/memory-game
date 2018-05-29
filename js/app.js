@@ -5,7 +5,8 @@
  * if it open when click it have card and open  class  
  */
 
-var cards = document.querySelector("ul.deck").children;
+var deck  = document.querySelector("ul.deck");
+var cards = deck.children;
 
 var stars= document.querySelector("ul.stars").children;
 var starsNumber=stars.length;
@@ -39,10 +40,13 @@ var arr=
 //initialize 
 init();
 
-
+/*
 for(let card of cards){
     card.addEventListener("click",cardClicked);
 }
+*/
+//add listener 
+deck.addEventListener("click",cardClicked); 
 
 //replay button listener
 replay.addEventListener("click",restart);
@@ -56,6 +60,7 @@ setTimeout(timerRate,downRate);
 
 
 function cardClicked(event){
+    if(event.target.tagName != 'LI') return;
     // 2 cards unmatched => max wait for 500 milisecoind
     if (wait) return;
 
