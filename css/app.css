@@ -52,6 +52,10 @@ h1 {
     margin: 0 0 3em;
 }
 
+.mx-2 {
+ margin: 0 8px;
+}
+
 .deck .card {
     height: 125px;
     width: 125px;
@@ -90,9 +94,13 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
-    width: 345px;
-    margin-bottom: 10px;
+    text-align: center;
+    width: 660px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0 0 10px;
+
 }
 
 .score-panel .stars {

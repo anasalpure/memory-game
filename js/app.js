@@ -10,7 +10,7 @@ var cards = deck.children;
 
 var stars= document.querySelector("ul.stars").children;
 var starsNumber=stars.length;
-var downRate=30000;  // 30 secound
+
 //number of matched images , end game when reach 8
 var matched=0;
 var winDiv = document.querySelector("#win");
@@ -18,11 +18,15 @@ var notWinDiv = document.querySelector("#notWin");
 var replay =document.querySelector("#replay");
 
 var counter=0;
-var movesCounter= document.querySelector("span.moves");
+var movesCounterLable= document.querySelector("span.moves");
 var restartBitton=document.querySelector(".restart");
 var wait=false;
 //we need 2 varibles to store 2 cards that user select
 var first,secound;
+
+
+var timer=0;
+var timerLabel  = document.querySelector(".timer");
 
 var arr=
 [
@@ -54,9 +58,7 @@ replay.addEventListener("click",restart);
 restartBitton.addEventListener('click',restart);
 
 // stars rate will go down one star every 30 secound
-setTimeout(timerRate,downRate);
-
-
+setTimeout(timerRate(),1000);
 
 
 function cardClicked(event){
@@ -71,7 +73,7 @@ function cardClicked(event){
     */
     if(classes.length==1){
         counter++;
-        movesCounter.textContent=counter;
+        movesCounterLable.textContent=counter + "Moves";
         classes.add("open");
         ifUserSelectFirstCard(target);
     }
@@ -109,8 +111,15 @@ function init(){
 
     first=null;
     secound=null;
+    starsNumber=stars.length; 
+    //reset old timer 
+    timer=0;
+   //reset old matched cards 
+    matched=0;
     winDiv.style.display="none"
     notWinDiv.style.display="flex"
+    
+
   
 }
 
@@ -124,14 +133,12 @@ function restart(){
             }
         }
         counter=0;
-        movesCounter.textContent=counter;
+        movesCounterLable.textContent=counter + " Moves";
         //put 3 active stars
         for(let star of stars){
             star.children[0].classList.add("green");
         }
         
-        starsNumber=stars.length; 
-        setTimeout(timerRate,downRate);
         init();
     }
 }
@@ -151,6 +158,7 @@ function shuffle(array) {
 }
 
 
+
 function compare (){
     let f=first.children[0].className;
     let s=secound.children[0].className;
@@ -160,7 +168,9 @@ function compare (){
         first.classList.remove("open");
         secound.classList.remove("open");
         //check if user win
-        isPassed()
+        isPassed();
+        first = null;
+        secound = null;
     }
     else{
         wait=true;
@@ -200,7 +210,8 @@ function isPassed(){
   if(matched==8){
       let currentStar=starsNumber;
       let currentMoves=counter;
-      let winMessage=` with ${currentMoves} moves <br> and ${currentStar} star <br> woooooooooo! <br>`;
+      let currentTime=timer;
+      let winMessage=` with ${currentMoves} moves <br> and ${currentStar} stars<br> and ${currentTime} secounds  <br> woooooooooo! <br> `;
 
       document.querySelector("#message").innerHTML=winMessage;
 
@@ -210,17 +221,19 @@ function isPassed(){
   }
 }
 
-
-
 function timerRate(){
+    timer++;
+    timerLabel.textContent= timer+" sec";
 
-    if(starsNumber>0){
+    if( timer%30==0 && timer <=90 ){
         starsNumber--;
         stars[starsNumber].children[0].classList.remove("green");
-        setTimeout(timerRate,downRate/1.3);
     }
-    
+
+    setTimeout(timerRate,1000);
 }
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
