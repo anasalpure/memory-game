@@ -44,11 +44,7 @@ var arr=
 //initialize 
 init();
 
-/*
-for(let card of cards){
-    card.addEventListener("click",cardClicked);
-}
-*/
+
 //add listener 
 deck.addEventListener("click",cardClicked); 
 
@@ -68,15 +64,11 @@ function cardClicked(event){
     let classes = target.classList;
   
 
-   //start time at first ckick
-    if(movesCounter==0)
-        timerThread=setTimeout(timerRate(),1000);
 
     /* by default card have card class only
     * we'll show the image card to user
     */
     if(classes.length==1){
-        movesCounterUp();
         classes.add("open");
         ifUserSelectFirstCard(target);
     }
@@ -93,7 +85,13 @@ function cardClicked(event){
     else if(classes.contains('open')){
         classes.remove("open");
         first =null;
+        movesCounterUp();
     }
+
+    //start time at first ckick
+    if(movesCounter==0)
+        timerThread=setTimeout(timerRate(),1000);
+
 }
 /*
  * Display the cards on the page
@@ -144,7 +142,7 @@ function restart(){
 
         //stop old timer
         clearTimeout(timerThread);
-        timerLabel.textContent="0 sec";
+        timerLabel.textContent="0:0 sec";
         
         init();
     }
@@ -201,12 +199,13 @@ function compare (){
 }
 
 function ifUserSelectFirstCard(card){
-    if(first == null){
-         first=card;
+    if(first){
+        secound=card;
+        secound.classList.add("open");
+        movesCounterUp();
     }
     else{
-         secound=card;
-         secound.classList.add("open");
+        first=card;
     }
     if(secound != null)
         compare();
@@ -233,7 +232,10 @@ function isPassed(){
 
 function timerRate(){
     timer++;
-    timerLabel.textContent= timer+" sec";
+    let minutes = Math.floor(timer/60);
+    let secounds = timer % 60;
+    timerLabel.textContent= `${minutes}:${secounds} sec`;
+
     timerThread=setTimeout(timerRate,1000);
 }
 
@@ -243,7 +245,7 @@ function movesCounterUp(){
     movesCounter++;
     movesCounterLable.textContent=movesCounter + " Moves";
 
-    if( movesCounter==23 || movesCounter==35 ||movesCounter==45){
+    if( movesCounter==12 || movesCounter==17){
         starsNumber--;
         stars[starsNumber].children[0].classList.remove("green");
     }
