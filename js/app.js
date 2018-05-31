@@ -17,14 +17,14 @@ var winDiv = document.querySelector("#win");
 var notWinDiv = document.querySelector("#notWin");
 var replay =document.querySelector("#replay");
 
-var counter=0;
+var movesCounter=0;
 var movesCounterLable= document.querySelector("span.moves");
 var restartBitton=document.querySelector(".restart");
 var wait=false;
 //we need 2 varibles to store 2 cards that user select
 var first,secound;
 
-
+var timerThread;
 var timer=0;
 var timerLabel  = document.querySelector(".timer");
 
@@ -57,8 +57,6 @@ replay.addEventListener("click",restart);
 //restart game
 restartBitton.addEventListener('click',restart);
 
-// stars rate will go down one star every 30 secound
-setTimeout(timerRate(),1000);
 
 
 function cardClicked(event){
@@ -68,12 +66,17 @@ function cardClicked(event){
 
     let target =event.target;
     let classes = target.classList;
+  
+
+   //start time at first ckick
+    if(movesCounter==0)
+        timerThread=setTimeout(timerRate(),1000);
+
     /* by default card have card class only
     * we'll show the image card to user
     */
     if(classes.length==1){
-        counter++;
-        movesCounterLable.textContent=counter + "Moves";
+        movesCounterUp();
         classes.add("open");
         ifUserSelectFirstCard(target);
     }
@@ -132,12 +135,16 @@ function restart(){
                 card.classList.remove("match");
             }
         }
-        counter=0;
-        movesCounterLable.textContent=counter + " Moves";
+        movesCounter=0;
+        movesCounterLable.textContent=movesCounter + " Moves";
         //put 3 active stars
         for(let star of stars){
             star.children[0].classList.add("green");
         }
+
+        //stop old timer
+        clearTimeout(timerThread);
+        timerLabel.textContent="0 sec";
         
         init();
     }
@@ -205,11 +212,12 @@ function ifUserSelectFirstCard(card){
         compare();
 }
 
+
 function isPassed(){
   matched ++;
   if(matched==8){
       let currentStar=starsNumber;
-      let currentMoves=counter;
+      let currentMoves=movesCounter;
       let currentTime=timer;
       let winMessage=` with ${currentMoves} moves <br> and ${currentStar} stars<br> and ${currentTime} secounds  <br> woooooooooo! <br> `;
 
@@ -217,22 +225,29 @@ function isPassed(){
 
       winDiv.style.display="flex";
       notWinDiv.style.display="none";
+
       
   }
 }
 
+
 function timerRate(){
     timer++;
     timerLabel.textContent= timer+" sec";
+    timerThread=setTimeout(timerRate,1000);
+}
 
-    if( timer%30==0 && timer <=90 ){
+
+
+function movesCounterUp(){
+    movesCounter++;
+    movesCounterLable.textContent=movesCounter + " Moves";
+
+    if( movesCounter==23 || movesCounter==35 ||movesCounter==45){
         starsNumber--;
         stars[starsNumber].children[0].classList.remove("green");
     }
-
-    setTimeout(timerRate,1000);
 }
-
 
 
 /*
