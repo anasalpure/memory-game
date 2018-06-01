@@ -29,15 +29,9 @@ var timer=0;
 var timerLabel  = document.querySelector(".timer");
 
 var arr=
-[
-    "fa-cube",
-    "fa-anchor",
-    "fa-diamond",
-    "fa-leaf",
-    "fa-bomb",
-    "fa-bolt",
-    "fa-bicycle",
-    "fa-paper-plane-o"
+[ "fa-cube" , "fa-anchor" , "fa-diamond" , "fa-leaf" , "fa-bomb",
+  "fa-bolt" ,  "fa-bicycle", "fa-paper-plane-o", "fa-laptop", "fa-linux",
+  "fa-headphones", "fa-heart",  "fa-star", "fa-camera-retro", "fa-lock", "fa-car",
 ];
 
 
@@ -90,7 +84,7 @@ function cardClicked(event){
     else if(classes.contains('open')){
         classes.remove("open");
         first =null;
-        movesCounterUp();
+       
     }
 
     //start time at first ckick
@@ -260,9 +254,14 @@ function createCards(){
     //remove old Children 
     deck.innerHTML="";
 
-    let images=[...arr,...arr];
+    //randomly shuffles the arr.
+    arr=shuffle(arr);
+    //get first 8 items from arr 
+    let currentArr = arr.slice(0, 8);
+  
+    let images=[...currentArr,...currentArr];
     images=shuffle(images);
-
+   
     let fragment=document.createDocumentFragment();
 
     for(let index=0 ; index<16;index++){
