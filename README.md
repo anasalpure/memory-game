@@ -8,7 +8,7 @@ How much can you  remember?
 
 Hi there! this is a small project programmed using java script  
 
-##How you can play Memory Game
+## How you can play Memory Game :
 you just need to download it from github by normal downloading or cloning  
 and click on index.html file and it will run on your default browser.  
 

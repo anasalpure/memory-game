@@ -6,7 +6,7 @@
  */
 
 var deck  = document.querySelector("ul.deck");
-var cards = deck.children;
+var cards=[] ;
 
 var stars= document.querySelector("ul.stars").children;
 var starsNumber=stars.length;
@@ -56,11 +56,16 @@ restartBitton.addEventListener('click',restart);
 
 
 function cardClicked(event){
-    if(event.target.tagName != 'LI') return;
+    let target =event.target;
+
+    if(!(target.tagName == 'LI' || target.tagName == 'I')) return;
     // 2 cards unmatched => max wait for 500 milisecoind
     if (wait) return;
+    
+    //if user click on icon inside li
+    if(target.tagName == 'I')
+        target=target.parentElement;
 
-    let target =event.target;
     let classes = target.classList;
   
 
@@ -103,13 +108,8 @@ function cardClicked(event){
 // Shuffle function from http://stackoverflow.com/a/2450976
 function init(){
 
-    let images=[...arr,...arr];
-    images=shuffle(images);
-    for(let i=0 ; i<images.length ; i++){
-        cards[i].children[0].className =`fa ${images[i]}`;
-
-    }
-
+    createCards();
+    
     first=null;
     secound=null;
     starsNumber=stars.length; 
@@ -249,6 +249,35 @@ function movesCounterUp(){
         starsNumber--;
         stars[starsNumber].children[0].classList.remove("green");
     }
+}
+
+function createCards(){
+    /**
+    <li class="card">
+            <i class="fa fa-cube"></i>
+    </li>
+     */
+    //remove old Children 
+    deck.innerHTML="";
+
+    let images=[...arr,...arr];
+    images=shuffle(images);
+
+    let fragment=document.createDocumentFragment();
+
+    for(let index=0 ; index<16;index++){
+        let li = document.createElement('li');
+        li.classList.add('card');
+
+        let i  = document.createElement('i');
+        i.className =`fa ${images[index]}`;
+
+        li.appendChild(i);
+        fragment.appendChild(li);
+        cards.push(li);
+    }
+    deck.appendChild(fragment);
+
 }
 
 
